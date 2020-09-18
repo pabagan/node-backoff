@@ -1,0 +1,34 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "check-coverage": true,
+  "reporter": [
+    "lcov",
+    "text-summary",
+    "clover",
+    "cobertura"
+  ],
+  "temp-directory": "./.coverage/nyc-tmp",
+  "report-dir": "./.coverage",
+  "statements": 100,
+  "branches": 100,
+  "functions": 100,
+  "lines": 100,
+  "watermarks": {
+    "lines": [
+      80,
+      95
+    ],
+    "functions": [
+      80,
+      95
+    ],
+    "branches": [
+      80,
+      95
+    ],
+    "statements": [
+      80,
+      95
+    ]
+  }
+}

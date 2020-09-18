@@ -1,0 +1,45 @@
+{
+  "name": "@pabagan/backoff",
+  "version": "0.0.1",
+  "description": "Promis execution implementing exponential backoff",
+  "scripts": {
+    "test": "ava run test",
+    "test:coverage": "nyc npm run test",
+    "deploy": "npm run lint && npm run build && npm run test:coverage && npm publish"
+  },
+  "keywords": [
+    "backoff",
+    "promise",
+    "exponential",
+    "backoff",
+    "typescript"
+  ],
+  "author": "@pabagan",
+  "license": "ISC",
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/node": "^14.6.4",
+    "ava": "^3.12.1",
+    "nyc": "^15.1.0",
+    "ts-node": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "eslint": "^7.8.1",
+    "eslint-plugin-ava": "^11.0.0",
+    "eslint-plugin-eslint-plugin": "^2.3.0",
+    "eslint-plugin-import": "^2.22.0",
+    "typescript": "^4.0.2"
+  },
+  "files": [
+    "lib",
+    "*.js",
+    "*.d.ts",
+    "index.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pabagan/node-backoff.git"
+  },
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts"
+}
