@@ -52,7 +52,7 @@ export const backOff = async (
   } catch (error) {
     if (Date.now() < backOffMaxTime) {
       setTimeout(() => {
-        console.debug(`Error ${error.message} on execution ${f.name}. Retrying at ${new Date().toISOString()}.`)
+        console.debug(`${new Date().toISOString()} Error: ${error.message} (${f.name}).`);
         config.delay = config.delay * 2;
 
         return backOff(f, config);
