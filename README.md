@@ -1,6 +1,6 @@
 # Backoff
 
-Retry promise execution implememting exponential backoff.
+Retry promise execution implememting exponential backoff. Run backoff is result contains `status` > `500`.
 
 Usage: 
 
@@ -19,5 +19,23 @@ function randomError(message) {
   return `OK: ${message}`;
 }
 
-const randomError = await backOff(() => randomError('Error message');
+function randomErrorRest() {
+  if (Date.now() % 2 === 0) {
+    return {
+      status: 500
+    };
+  }
+
+  return {
+    status: 200
+  };
+}
+
+const opErrorEstatusCode = await backOff(() => randomErrorRest());
+const opFunction = await backOff(() => randomError());
+const opWithConf = await backOff(() => randomErrorRest(), {
+  tryUntil: '10min',
+  delay: 1000,
+  runAt: Date.now()
+});
 ```

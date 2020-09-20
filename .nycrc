@@ -10,7 +10,7 @@
   "temp-directory": "./.coverage/nyc-tmp",
   "report-dir": "./.coverage",
   "statements": 100,
-  "branches": 100,
+  "branches": 89,
   "functions": 100,
   "lines": 100,
   "watermarks": {

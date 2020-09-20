@@ -1,10 +1,11 @@
 export interface IBackoffConfig {
-  runAt?: number;
-  tryUntil?: BackoffTime;
-  delay?: number;
+  runAt?: number;           // action timestamp 
+  tryUntil?: BackoffTime;   // time when action will be stop
+  delay?: number;           // delay between attemps receiving
 }
 
 export type BackoffTime =
+  | '100ms'
   | '1sec'
   | '5sec'
   | '10sec'
@@ -17,6 +18,7 @@ export type BackoffTime =
   | '24h';
 
 export const backoffIntervals = {
+  '100ms': 1000,
   '1sec': 1000,
   '5sec': 1000 * 5,
   '10sec': 1000 * 10,
@@ -39,53 +41,41 @@ export const backOff = async (
   f: Function,
   config: IBackoffConfig = {},
 ) => {
-  config.tryUntil = config.tryUntil || '5sec';
+  config.tryUntil = config.tryUntil || '1min';
   config.delay = config.delay || 100;
   config.runAt = config.runAt || Date.now();
 
-  const backOffMaxTime = (
-    config.runAt + backoffIntervals[config.tryUntil]
-  );
+  const maxTime = config.runAt + backoffIntervals[config.tryUntil];
 
   try {
-    return f();
-  } catch (error) {
-    if (Date.now() < backOffMaxTime) {
-      setTimeout(() => {
-        console.debug(`${new Date().toISOString()} Error: ${error.message} (${f.name}).`);
-        config.delay = config.delay * 2;
+    const run = await f();
 
-        return backOff(f, config);
-      }, config.delay);
+    if (
+      run
+      && run.status >= 500
+    ) {
+      throw new Error(
+        `${new Date().toISOString()} Error: status ${run.status} querying`
+      );
+    }
+
+    return run;
+  } catch (error) {
+    if (Date.now() < maxTime) {
+      return new Promise((resolve) => {
+        console.debug('queuing retry');
+        setTimeout(async () => {
+          console.debug(`Retry ${new Date().toISOString()}: ${error.message}`);
+          config.delay = config.delay * 2;
+
+          resolve(backOff(f, config));
+        }, config.delay);
+
+      });
     } else {
       throw error;
     }
   }
 };
 
-
-// (async () => {
-//   function hola() {
-//     return 'hola';
-//   }
-
-//   function randomError(message) {
-//     if (Date.now() % 2 === 0) {
-//       throw new Error(`Error ${message}`);
-//     }
-
-//     return `OK: ${message}`;
-//   }
-
-//   console.time('op');
-//   const op = await backOff(() => randomError(100));
-//   console.log(op);
-//   console.timeEnd('op');
-
-//   console.time('op2');
-//   const op1 = hola();
-//   console.log(op1);
-//   console.timeEnd('op2');
-
-// })();
 export default backOff;

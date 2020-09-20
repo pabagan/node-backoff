@@ -1,11 +1,16 @@
 {
-  "name": "@pabagan/backoff",
+  "name": "backoff-manager",
   "version": "0.0.1",
   "description": "Promis execution implementing exponential backoff",
   "scripts": {
-    "test": "ava run test",
+    "build": "tsc --declaration",
+    "build:w": "tsc --declaration -w",
+    "docs": "typedoc --exclude *.test.ts ./src",
+    "lint": "eslint --ext .ts src/",
+    "lint:fix": "eslint --ext .ts src/ --fix",
+    "test": "ava",
     "test:coverage": "nyc npm run test",
-    "deploy": "npm run lint && npm run build && npm run test:coverage && npm publish"
+    "deploy": "npm run lint && npm run build && npm run test && npm publish"
   },
   "keywords": [
     "backoff",
@@ -18,17 +23,18 @@
   "license": "ISC",
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@types/node": "^14.6.4",
+    "@types/node": "^14.11.1",
+    "@typescript-eslint/eslint-plugin": "^4.1.1",
+    "@typescript-eslint/parser": "^4.1.1",
     "ava": "^3.12.1",
-    "nyc": "^15.1.0",
-    "ts-node": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.1.0",
-    "@typescript-eslint/parser": "^4.1.0",
-    "eslint": "^7.8.1",
+    "eslint": "^7.9.0",
     "eslint-plugin-ava": "^11.0.0",
     "eslint-plugin-eslint-plugin": "^2.3.0",
     "eslint-plugin-import": "^2.22.0",
-    "typescript": "^4.0.2"
+    "nyc": "^15.1.0",
+    "sinon": "^9.0.3",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
   },
   "files": [
     "lib",
