@@ -1,7 +1,7 @@
 {
   "name": "backoff-manager",
   "version": "0.0.1",
-  "description": "Promis execution implementing exponential backoff",
+  "description": "Exponential backoff for Typescript",
   "scripts": {
     "build": "tsc --declaration",
     "build:w": "tsc --declaration -w",
